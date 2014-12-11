@@ -1,16 +1,18 @@
 var assert = require('assert');
-var routes = require('../routes');
-var server = require('../server')();
-
+var request = require('supertest');
+var app = require('../server').app;
 
 describe('Home', function(){
 
   describe('Route exists', function() {
-    it('Returns 200', function() {
-        var status = 200;
-
-      // Test that 200 response is returned
-      assert.equal(status, 200);
+    it('Returns 200', function(done) {
+      request(app)
+      .get('/')
+      .expect(200)
+      .end(function (err, res) {
+        assert.equal(res.status, 200);
+        done();
+      });
     });
   });
 
@@ -18,11 +20,9 @@ describe('Home', function(){
 
     // Make sure an object is returned
     it('Expected object data type', function() {
-      routes['/'].fn({}, {
-        json: function(data) {
-          assert.equal(typeof data, 'object');
-        }
-      });
+
+      assert.equal(typeof data, 'object');
+
     });
 
     // Checks for foo property in data exist

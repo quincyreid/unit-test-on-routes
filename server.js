@@ -1,16 +1,12 @@
 var express = require('express');
-var app = express();
-var routes = require('./routes.js');
+var app = exports.app = express();
 
-app.use(routes);
-
-var server = function(){
-  require('http').createServer(app).listen(3000, function(){
-     console.log('Running');
+app.get('/', function(req, res){
+  res.json({
+    foo: 'hello world'
   });
-};
+});
 
-module.exports = server;
-if (!module.parent) {
-  server();
-}
+require('http').createServer(app).listen(3000, function(){
+  console.log('Running');
+});
